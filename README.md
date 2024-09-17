@@ -1,4 +1,3 @@
-```markdown
 # SensoSphere Backend
 
 This is the backend of the **SensoSphere** project, built using **Node.js** and **Express**, and it will handle API requests, manage user authentication, and handle sensor data integration. This checklist will guide you through the development process step-by-step.
