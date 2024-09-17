@@ -1,0 +1,313 @@
+openapi: 3.0.0
+info:
+  title: SensoSphere API
+  description: API for the SensoSphere platform, handling authentication, sensors, and live feed.
+  version: 1.0.0
+  contact:
+    name: Brian Rono
+    email: rono.b23@htlwienwest.at
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+tags:
+  - name: Authentication
+    description: Operations related to user authentication
+  - name: Sensors
+    description: Operations related to sensors and sensor data
+  - name: Feed
+    description: Operations related to live feed posts
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The user ID
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Sensor:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        value:
+          type: number
+        timestamp:
+          type: string
+          format: date-time
+
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+        content:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+        timestamp:
+          type: string
+          format: date-time
+
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              statusCode:
+                type: integer
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags:
+        - Authentication
+      requestBody:
+        description: User registration details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User successfully registered
+        '400':
+          description: Bad request, user data is invalid
+        '409':
+          description: Conflict, user already exists
+          
+  /auth/login:
+    post:
+      summary: Login a user
+      tags:
+        - Authentication
+      requestBody:
+        description: User login details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: User successfully logged in
+        '400':
+          description: Bad request, invalid credentials
+        '401':
+          description: Unauthorized, invalid password
+
+  /sensors:
+    get:
+      summary: Get all sensors
+      tags:
+        - Sensors
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of sensors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sensor'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+          
+    post:
+      summary: Create a new sensor
+      tags:
+        - Sensors
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Sensor data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sensor'
+      responses:
+        '201':
+          description: Sensor created successfully
+        '400':
+          description: Bad request, invalid sensor data
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /sensors/{id}:
+    get:
+      summary: Get a specific sensor
+      tags:
+        - Sensors
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The sensor ID
+      responses:
+        '200':
+          description: A specific sensor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sensor'
+        '404':
+          description: Sensor not found
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    
+    put:
+      summary: Update a sensor
+      tags:
+        - Sensors
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The sensor ID
+      requestBody:
+        description: Sensor data to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sensor'
+      responses:
+        '200':
+          description: Sensor updated successfully
+        '404':
+          description: Sensor not found
+        '400':
+          description: Invalid data
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    
+    delete:
+      summary: Delete a sensor
+      tags:
+        - Sensors
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The sensor ID
+      responses:
+        '200':
+          description: Sensor deleted successfully
+        '404':
+          description: Sensor not found
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /feed:
+    get:
+      summary: Get all posts from the feed
+      tags:
+        - Feed
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Returns a list of posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+    post:
+      summary: Create a new post in the feed
+      tags:
+        - Feed
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Post data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '201':
+          description: Post created successfully
+        '400':
+          description: Bad request, invalid post data
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    
+  /feed/{id}:
+    delete:
+      summary: Delete a post from the feed
+      tags:
+        - Feed
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The post ID
+      responses:
+        '200':
+          description: Post deleted successfully
+        '404':
+          description: Post not found
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'

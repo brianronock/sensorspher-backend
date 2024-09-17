@@ -16,26 +16,26 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
 ## Development Checklist
 
 ### 1. **Project Structure Setup**
-- [ ] Create a `src/` folder to store your backend code
-- [ ] Create the following subfolders in `src/`:
-  - [ ] `config/` (for configuration files)
-  - [ ] `controllers/` (for route handlers)
-  - [ ] `models/` (for MongoDB models)
-  - [ ] `routes/` (for API route definitions)
-  - [ ] `middleware/` (for authentication and other middleware)
-  - [ ] `services/` (for external services like WebSocket or MQTT)
-  - [ ] `utils/` (for helper functions)
-- [ ] Set up `server.js` as the entry point of the application
+- [x] Create a `src/` folder to store your backend code
+- [x] Create the following subfolders in `src/`:
+  - [x] `config/` (for configuration files)
+  - [x] `controllers/` (for route handlers)
+  - [x] `models/` (for MongoDB models)
+  - [x] `routes/` (for API route definitions)
+  - [x] `middleware/` (for authentication and other middleware)
+  - [x] `services/` (for external services like WebSocket or MQTT)
+  - [x] `utils/` (for helper functions)
+- [x] Set up `server.js` as the entry point of the application
 
 ---
 
 ### 3. **Package Installation**
-- [ ] Install essential packages:
-  - [ ] `express` (for the backend framework)
-  - [ ] `mongoose` (for MongoDB integration)
-  - [ ] `jsonwebtoken` (for JWT authentication)
-  - [ ] `bcryptjs` (for password hashing)
-  - [ ] `cors` (to handle cross-origin requests)
+- [x] Install essential packages:
+  - [x] `express` (for the backend framework)
+  - [x] `mongoose` (for MongoDB integration)
+  - [x] `jsonwebtoken` (for JWT authentication)
+  - [x] `bcryptjs` (for password hashing)
+  - [x] `cors` (to handle cross-origin requests)
   ```bash
   npm install express mongoose jsonwebtoken bcryptjs cors
   ```
@@ -43,8 +43,8 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
 ---
 
 ### 4. **Environment Configuration**
-- [ ] Create a `.env` file for environment variables (e.g., MongoDB URI, JWT secret)
-- [ ] Install the `dotenv` package:
+- [x] Create a `.env` file for environment variables (e.g., MongoDB URI, JWT secret)
+- [x] Install the `dotenv` package:
   ```bash
   npm install dotenv
   ```

@@ -1,0 +1,20 @@
+/***********************************************************
+    src/routes/userRoutes.js
+                This file defines routes related to user 
+                actions such as viewing or updating profiles.
+***********************************************************/
+
+const express = require('express')
+const { getUserProfile, updateUserProfile } = require('../controllers/userController')
+const { protect } = require('../middleware/authMiddleware')
+const { asyncHandler } = require('../middleware/asyncHandler')
+
+const router = express.Router()
+
+// Get user profile (protected route)
+router.get('/profile', protect, asyncHandler(getUserProfile))
+
+// Update user profile (protected route)
+router.put('/profile', protect, asyncHandler(updateUserProfile))
+
+module.exports = router
