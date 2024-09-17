@@ -1,3 +1,4 @@
+```markdown
 # SensoSphere Backend
 
 This is the backend of the **SensoSphere** project, built using **Node.js** and **Express**, and it will handle API requests, manage user authentication, and handle sensor data integration. This checklist will guide you through the development process step-by-step.
@@ -36,7 +37,7 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
   - [ ] `jsonwebtoken` (for JWT authentication)
   - [ ] `bcryptjs` (for password hashing)
   - [ ] `cors` (to handle cross-origin requests)
-  
+  ```bash
   npm install express mongoose jsonwebtoken bcryptjs cors
   ```
 
@@ -45,7 +46,7 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
 ### 4. **Environment Configuration**
 - [ ] Create a `.env` file for environment variables (e.g., MongoDB URI, JWT secret)
 - [ ] Install the `dotenv` package:
-  
+  ```bash
   npm install dotenv
   ```
 - [ ] Configure **MongoDB connection** in `src/config/db.js`
@@ -108,7 +109,7 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
 
 ### 10. **Deployment Preparation**
 - [ ] Add a `.gitignore` file to ignore unnecessary files such as `node_modules/` and `.env`:
-  
+  ```bash
   # Node modules
   node_modules/
   
@@ -120,7 +121,7 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
   *.log
   ```
 - [ ] Ensure that all code is committed and pushed to GitHub:
-  
+  ```bash
   git add .
   git commit -m "Prepare for deployment"
   git push
@@ -153,12 +154,12 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
 ## How to Run the Project
 
 1. Clone the repository:
-   
+   ```bash
    git clone git@github.com:brianronock/sensorspher-backend.git
    ```
 
 2. Install the dependencies:
-   
+   ```bash
    npm install
    ```
 
@@ -170,7 +171,7 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
    ```
 
 4. Run the project:
-   
+   ```bash
    npm start
    ```
 
