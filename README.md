@@ -48,50 +48,50 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
   ```bash
   npm install dotenv
   ```
-- [ ] Configure **MongoDB connection** in `src/config/db.js`
+- [x] Configure **MongoDB connection** in `src/config/db.js`
 
 ---
 
 ### 5. **User Authentication**
-- [ ] Set up the **User model** in `src/models/User.js` to handle user data (e.g., name, email, password)
-- [ ] Implement **register** and **login** controllers in `src/controllers/authController.js`:
-  - [ ] `registerUser()` to create new users
-  - [ ] `loginUser()` to authenticate users and return a JWT token
-- [ ] Set up routes for authentication in `src/routes/authRoutes.js`:
-  - [ ] User registration (`/api/auth/register`)
-  - [ ] User login (`/api/auth/login`)
-  - [ ] User profile retrieval (`/api/auth/profile`)
-- [ ] Implement **JWT authentication middleware** in `src/middleware/authMiddleware.js` to protect routes
+- [x] Set up the **User model** in `src/models/User.js` to handle user data (e.g., name, email, password)
+- [x] Implement **register** and **login** controllers in `src/controllers/authController.js`:
+  - [x] `registerUser()` to create new users
+  - [x] `loginUser()` to authenticate users and return a JWT token
+- [x] Set up routes for authentication in `src/routes/authRoutes.js`:
+  - [x] User registration (`/api/auth/register`)
+  - [x] User login (`/api/auth/login`)
+  - [x] User profile retrieval (`/api/auth/profile`)
+- [x] Implement **JWT authentication middleware** in `src/middleware/authMiddleware.js` to protect routes
 - [ ] Test the authentication routes using **Postman** or a similar tool
 
 ---
 
 ### 6. **API Routes**
-- [ ] Set up basic API routes:
-  - [ ] Create `src/routes/authRoutes.js` for authentication
-  - [ ] Create `src/routes/sensorRoutes.js` for managing sensor data
-  - [ ] Create `src/routes/feedRoutes.js` for handling live feed posts and comments
-- [ ] Implement route handlers in the respective controllers (`authController.js`, `sensorController.js`, `feedController.js`)
+- [x] Set up basic API routes:
+  - [x] Create `src/routes/authRoutes.js` for authentication
+  - [x] Create `src/routes/sensorRoutes.js` for managing sensor data
+  - [x] Create `src/routes/feedRoutes.js` for handling live feed posts and comments
+- [x] Implement route handlers in the respective controllers (`authController.js`, `sensorController.js`, `feedController.js`)
 - [ ] Test API endpoints using Postman to ensure they work as expected
 
 ---
 
 ### 7. **Sensor Data Integration**
-- [ ] Set up the **Sensor model** in `src/models/Sensor.js` to store sensor information
-- [ ] Implement **CRUD operations** for sensor data in `src/controllers/sensorController.js`:
-  - [ ] Create sensor data
-  - [ ] Read sensor data
-  - [ ] Update sensor data
-  - [ ] Delete sensor data
-- [ ] Set up routes for sensor data in `src/routes/sensorRoutes.js`
-- [ ] Integrate MQTT for real-time sensor data streaming in `src/services/mqttService.js`
+- [x] Set up the **Sensor model** in `src/models/Sensor.js` to store sensor information
+- [x] Implement **CRUD operations** for sensor data in `src/controllers/sensorController.js`:
+  - [x] Create sensor data
+  - [x] Read sensor data
+  - [x] Update sensor data
+  - [x] Delete sensor data
+- [x] Set up routes for sensor data in `src/routes/sensorRoutes.js`
+- [x] Integrate MQTT for real-time sensor data streaming in `src/services/mqttService.js`
 - [ ] Test sensor data endpoints using Postman
 
 ---
 
 ### 8. **Real-time Features**
 - [ ] Set up **WebSocket** integration for real-time updates in `src/services/websocketService.js`
-  - [ ] Implement WebSocket connections for sending real-time sensor data
+  - [x] Implement WebSocket connections for sending real-time sensor data
   - [ ] Send real-time notifications to the frontend for new sensor data or alerts
 - [ ] Integrate WebSocket functionality with existing routes
 - [ ] Test WebSocket connections using WebSocket tools (e.g., `wscat` or an online WebSocket tester)
@@ -100,14 +100,14 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
 
 ### 9. **Error Handling**
 - [ ] Implement global error handling middleware in `src/middleware/errorHandler.js`:
-  - [ ] Catch common errors such as missing fields, invalid inputs, or authentication failures
-  - [ ] Return user-friendly error messages from the API
+  - [x] Catch common errors such as missing fields, invalid inputs, or authentication failures
+  - [x] Return user-friendly error messages from the API
   - [ ] Test error handling by sending invalid requests and ensuring proper error responses
 
 ---
 
 ### 10. **Deployment Preparation**
-- [ ] Add a `.gitignore` file to ignore unnecessary files such as `node_modules/` and `.env`:
+- [x] Add a `.gitignore` file to ignore unnecessary files such as `node_modules/` and `.env`:
   ```bash
   # Node modules
   node_modules/
