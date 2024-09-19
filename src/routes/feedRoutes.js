@@ -5,9 +5,9 @@
 ***********************************************************/
 
 const express = require('express')
-const { getPosts, createPost, deletePost } = require('../controllers/feedController')
+const { getPosts, createPost, deletePost, updatePost } = require('../controllers/feedController')
 const { protect } = require('../middleware/authMiddleware')
-const { asyncHandler } = require('../middleware/asyncHandler')
+const { asyncHandler } = require('../utils/asyncHandler')
 
 const router = express.Router()
 
@@ -16,6 +16,9 @@ router.get('/', protect, asyncHandler(getPosts))
 
 // Create a new post
 router.post('/', protect, asyncHandler(createPost))
+
+// Update a post by ID
+router.put('/:id', protect, asyncHandler(updatePost));
 
 // Delete a post by ID
 router.delete('/:id', protect, asyncHandler(deletePost))

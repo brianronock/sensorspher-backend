@@ -1,55 +1,78 @@
 /***********************************************************
     src/controllers/authController.js
-                This file handles the logic for user
-                registration and login, now using asyncHandler.
+                This file handles the logic for authentication.
 ***********************************************************/
 
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const { asyncHandler } = require('../utils/asyncHandler')
+const Joi = require('joi')
 const User = require('../models/User')
 const { generateToken } = require('../utils/jwtHelper')
 
-// Register a new user
-const registerUser = async (req, res) => {
+// Validation schema for registering users
+const registerSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+})
+
+// Validation schema for login
+const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+})
+
+// Register user
+const registerUser = asyncHandler(async (req, res) => {
+  const { error } = registerSchema.validate(req.body)
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message })
+  }
+
   const { name, email, password } = req.body
 
-  const existingUser = await User.findOne({ email })
-  if (existingUser) {
+  const userExists = await User.findOne({ email })
+
+  if (userExists) {
     res.status(400)
     throw new Error('User already exists')
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10)
-
   const user = await User.create({
     name,
     email,
-    password: hashedPassword,
+    password,
   })
 
-  const token = generateToken(user._id)
+  res.status(201).json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    token: generateToken(user._id),
+  })
+})
 
-  res.status(201).json({ _id: user._id, name: user.name, email: user.email, token })
-}
+const loginUser = asyncHandler(async (req, res) => {
+  const { error } = loginSchema.validate(req.body)
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message })
+  }
 
-// Login an existing user
-const loginUser = async (req, res) => {
   const { email, password } = req.body
-
   const user = await User.findOne({ email })
-  if (!user) {
-    res.status(400)
+
+  if (user && (await user.matchPassword(password))) {
+    const token = generateToken(user._id)
+    console.log('Generated token:', token) // Add this line for debugging
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      token: token,
+    })
+  } else {
+    res.status(401)
     throw new Error('Invalid credentials')
   }
-
-  const isMatch = await bcrypt.compare(password, user.password)
-  if (!isMatch) {
-    res.status(400)
-    throw new Error('Invalid credentials')
-  }
-
-  const token = generateToken(user._id)
-  res.json({ _id: user._id, name: user.name, email: user.email, token })
-}
+})
 
 module.exports = { registerUser, loginUser }

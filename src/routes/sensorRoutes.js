@@ -7,7 +7,7 @@
 const express = require('express')
 const { getSensors, createSensor, updateSensor, deleteSensor } = require('../controllers/sensorController')
 const { protect } = require('../middleware/authMiddleware')
-const { asyncHandler } = require('../middleware/asyncHandler')
+const { asyncHandler } = require('../utils/asyncHandler')
 
 const router = express.Router()
 

@@ -7,7 +7,7 @@
 
 const express = require('express')
 const { registerUser, loginUser } = require('../controllers/authController')
-const { asyncHandler } = require('../middleware/asyncHandler')
+const { asyncHandler } = require('../utils/asyncHandler')
 
 const router = express.Router()
 

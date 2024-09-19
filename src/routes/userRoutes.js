@@ -7,7 +7,7 @@
 const express = require('express')
 const { getUserProfile, updateUserProfile } = require('../controllers/userController')
 const { protect } = require('../middleware/authMiddleware')
-const { asyncHandler } = require('../middleware/asyncHandler')
+const { asyncHandler } = require('../utils/asyncHandler')
 
 const router = express.Router()
 

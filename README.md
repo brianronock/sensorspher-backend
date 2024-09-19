@@ -36,18 +36,12 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
   - [x] `jsonwebtoken` (for JWT authentication)
   - [x] `bcryptjs` (for password hashing)
   - [x] `cors` (to handle cross-origin requests)
-  ```bash
-  npm install express mongoose jsonwebtoken bcryptjs cors
-  ```
 
 ---
 
 ### 4. **Environment Configuration**
 - [x] Create a `.env` file for environment variables (e.g., MongoDB URI, JWT secret)
 - [x] Install the `dotenv` package:
-  ```bash
-  npm install dotenv
-  ```
 - [x] Configure **MongoDB connection** in `src/config/db.js`
 
 ---
@@ -62,7 +56,7 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
   - [x] User login (`/api/auth/login`)
   - [x] User profile retrieval (`/api/auth/profile`)
 - [x] Implement **JWT authentication middleware** in `src/middleware/authMiddleware.js` to protect routes
-- [ ] Test the authentication routes using **Postman** or a similar tool
+- [x] Test the authentication routes using **Postman** or a similar tool
 
 ---
 
@@ -72,7 +66,7 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
   - [x] Create `src/routes/sensorRoutes.js` for managing sensor data
   - [x] Create `src/routes/feedRoutes.js` for handling live feed posts and comments
 - [x] Implement route handlers in the respective controllers (`authController.js`, `sensorController.js`, `feedController.js`)
-- [ ] Test API endpoints using Postman to ensure they work as expected
+- [x] Test API endpoints using Postman to ensure they work as expected
 
 ---
 
@@ -85,7 +79,7 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
   - [x] Delete sensor data
 - [x] Set up routes for sensor data in `src/routes/sensorRoutes.js`
 - [x] Integrate MQTT for real-time sensor data streaming in `src/services/mqttService.js`
-- [ ] Test sensor data endpoints using Postman
+- [x] Test sensor data endpoints using Postman
 
 ---
 

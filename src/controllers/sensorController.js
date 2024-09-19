@@ -1,41 +1,53 @@
 /***********************************************************
     src/controllers/sensorController.js
-                This file handles logic for sensor-related
-                operations, now using asyncHandler.
+                This file handles the logic for sensors.
 ***********************************************************/
 
 const Sensor = require('../models/Sensor')
+const { asyncHandler } = require('../utils/asyncHandler')
+const Joi = require('joi')
+
+// Validation schema for sensors
+const sensorSchema = Joi.object({
+  type: Joi.string().required(),
+  value: Joi.number().required(),
+})
 
 // Get all sensors
-const getSensors = async (req, res) => {
+const getSensors = asyncHandler(async (req, res) => {
   const sensors = await Sensor.find()
   res.json(sensors)
-}
+})
 
 // Create a new sensor
-const createSensor = async (req, res) => {
+const createSensor = asyncHandler(async (req, res) => {
+  const { error } = sensorSchema.validate(req.body)
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message })
+  }
+
   const sensor = await Sensor.create(req.body)
   res.status(201).json(sensor)
-}
-
-// Update a sensor
-const updateSensor = async (req, res) => {
-  const sensor = await Sensor.findByIdAndUpdate(req.params.id, req.body, { new: true })
-  if (!sensor) {
-    res.status(404)
-    throw new Error('Sensor not found')
-  }
-  res.json(sensor)
-}
+})
 
 // Delete a sensor
-const deleteSensor = async (req, res) => {
-  const sensor = await Sensor.findByIdAndDelete(req.params.id)
+const deleteSensor = asyncHandler(async (req, res) => {
+  const sensor = await Sensor.findById(req.params.id);
   if (!sensor) {
-    res.status(404)
-    throw new Error('Sensor not found')
+    return res.status(404).json({ message: 'Sensor not found' });  // Directly return 404 response
   }
-  res.json({ message: 'Sensor removed' })
-}
+  await sensor.remove();
+  res.json({ message: 'Sensor removed' });
+});
+
+// Update a sensor
+const updateSensor = asyncHandler(async (req, res) => {
+  const sensor = await Sensor.findById(req.params.id);
+  if (!sensor) {
+    return res.status(404).json({ message: 'Sensor not found' });  // Directly return 404 response
+  }
+  const updatedSensor = await Sensor.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updatedSensor);
+});
 
 module.exports = { getSensors, createSensor, updateSensor, deleteSensor }

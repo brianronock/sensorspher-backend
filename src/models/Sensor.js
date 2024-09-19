@@ -9,11 +9,13 @@ const mongoose = require('mongoose')
 const sensorSchema = new mongoose.Schema({
   type: {
     type: String,
-    required: true
+    required: true,
+    enum: ['temperature', 'humidity', 'pressure', 'other'], // Predefine valid sensor types
   },
   value: {
     type: Number,
-    required: true
+    required: true,
+    min: 0, // You can set a minimum value if relevant
   },
   timestamp: {
     type: Date,

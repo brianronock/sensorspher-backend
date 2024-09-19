@@ -25,7 +25,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/sensors', sensorRoutes)
 app.use('/api/feed', feedRoutes)
 
-// Global error handler
+// Global error handler. Registered after all route definitions to catch any errors throuwn by the routes
 app.use(errorHandler)
 
 module.exports = app
