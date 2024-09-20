@@ -17,4 +17,8 @@ router.get('/profile', protect, asyncHandler(getUserProfile))
 // Update user profile (protected route)
 router.put('/profile', protect, asyncHandler(updateUserProfile))
 
+router.get('/test', (req, res) => {
+    res.json({ message: 'Test route working' });
+  });
+
 module.exports = router
