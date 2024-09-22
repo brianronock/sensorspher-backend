@@ -84,19 +84,19 @@ This is the backend of the **SensoSphere** project, built using **Node.js** and 
 ---
 
 ### 8. **Real-time Features**
-- [ ] Set up **WebSocket** integration for real-time updates in `src/services/websocketService.js`
+- [x] Set up **WebSocket** integration for real-time updates in `src/services/websocketService.js`
   - [x] Implement WebSocket connections for sending real-time sensor data
-  - [ ] Send real-time notifications to the frontend for new sensor data or alerts
-- [ ] Integrate WebSocket functionality with existing routes
-- [ ] Test WebSocket connections using WebSocket tools (e.g., `wscat` or an online WebSocket tester)
+  - [x] Send real-time notifications to the frontend for new sensor data or alerts
+- [x] Integrate WebSocket functionality with existing routes
+- [x] Test WebSocket connections using WebSocket tools (e.g., `wscat` or an online WebSocket tester)
 
 ---
 
 ### 9. **Error Handling**
-- [ ] Implement global error handling middleware in `src/middleware/errorHandler.js`:
+- [x] Implement global error handling middleware in `src/middleware/errorHandler.js`:
   - [x] Catch common errors such as missing fields, invalid inputs, or authentication failures
   - [x] Return user-friendly error messages from the API
-  - [ ] Test error handling by sending invalid requests and ensuring proper error responses
+  - [x] Test error handling by sending invalid requests and ensuring proper error responses
 
 ---
 

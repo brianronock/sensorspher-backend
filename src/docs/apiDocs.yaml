@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   title: SensoSphere API
-  description: API for the SensoSphere platform, handling authentication, sensors, and live feed.
-  version: 1.0.0
+  description: API for the SensoSphere platform, handling authentication, sensors, live feed, MQTT, WebSocket communications, and user management.
+  version: 1.0.1
   contact:
     name: Brian Rono
     email: rono.b23@htlwienwest.at
@@ -17,6 +17,8 @@ tags:
     description: Operations related to sensors and sensor data
   - name: Feed
     description: Operations related to live feed posts
+  - name: User Management
+    description: Operations related to user information and profiles
 
 components:
   securitySchemes:
@@ -67,6 +69,11 @@ components:
           type: string
         user:
           $ref: '#/components/schemas/User'
+        likes:
+          type: array
+          items:
+            type: string
+            description: Array of user IDs who liked the post
         timestamp:
           type: string
           format: date-time
@@ -132,6 +139,23 @@ paths:
           description: Bad request, invalid credentials
         '401':
           description: Unauthorized, invalid password
+
+  /users/profile:
+    get:
+      summary: Get user profile
+      tags:
+        - User Management
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Returns the user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
 
   /sensors:
     get:
@@ -289,8 +313,36 @@ paths:
           description: Bad request, invalid post data
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-    
+
   /feed/{id}:
+    put:
+      summary: Update a post in the feed
+      tags:
+        - Feed
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The post ID
+      requestBody:
+        description: Post data to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '200':
+          description: Post updated successfully
+        '404':
+          description: Post not found
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
     delete:
       summary: Delete a post from the feed
       tags:
@@ -307,6 +359,29 @@ paths:
       responses:
         '200':
           description: Post deleted successfully
+        '404':
+          description: Post not found
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+    patch:
+      summary: Like a post
+      tags:
+        - Feed
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The post ID
+      responses:
+        '200':
+          description: Post liked successfully
+        '400':
+          description: Bad request or user already liked the post
         '404':
           description: Post not found
         '401':
