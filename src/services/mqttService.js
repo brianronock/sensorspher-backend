@@ -1,30 +1,53 @@
-/***********************************************************
-    src/services/mqttService.js
-                This service handles communication with
-                the MQTT broker for real-time sensor data.
-***********************************************************/
+const mqtt = require('mqtt');
+const Sensor = require('../models/Sensor');  // Assuming you're using this model for database
 
-const mqtt = require('mqtt')
-const client = mqtt.connect(process.env.MQTT_BROKER_URL)
+let io;  // Socket.io instance placeholder
+
+// MQTT client connection
+const client = mqtt.connect(process.env.MQTT_BROKER_URL);
 
 client.on('connect', () => {
-  console.log('Connected to MQTT broker')
-})
+  console.log('Connected to MQTT broker');
 
-const publishData = (topic, message) => {
-  client.publish(topic, message, () => {
-    console.log(`Message sent to topic ${topic}`)
-  })
-}
+  // Subscribe to relevant topics
+  client.subscribe('sensors/temperature');
+  client.subscribe('sensors/humidity');
+});
 
-const subscribeToTopic = (topic) => {
-  client.subscribe(topic, () => {
-    console.log(`Subscribed to topic ${topic}`)
-  })
-}
+client.on('message', async (topic, message) => {
+  // console.log(message.toString())
+  let type = '';
+  if (topic === 'sensors/temperature') {
+    type = 'temperature';
+  } else if (topic === 'sensors/humidity') {
+    type = 'humidity';
+  }
 
-client.on('message', (topic, message) => {
-  console.log(`Received message from ${topic}: ${message}`)
-})
+  if (type) {
+    const sensorData = {
+      type,
+      value: parseFloat(message.toString()),
+    };
 
-module.exports = { publishData, subscribeToTopic }
+    try {
+      // Store the data in MongoDB
+      const sensor = new Sensor(sensorData);
+      await sensor.save();
+
+      // Emit the sensor data via WebSocket
+      if (io) {
+        io.emit('sensorData', sensorData);  // Broadcast to all WebSocket clients
+      }
+
+    } catch (error) {
+      console.error(`Failed to save sensor data:`, error);
+    }
+  }
+});
+
+// Initialize Socket.io in the service
+const initSocket = (socketIo) => {
+  io = socketIo;  // Assign the passed Socket.io instance to io
+};
+
+module.exports = { initSocket };

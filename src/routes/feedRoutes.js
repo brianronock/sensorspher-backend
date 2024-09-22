@@ -5,7 +5,7 @@
 ***********************************************************/
 
 const express = require('express')
-const { getPosts, createPost, deletePost, updatePost } = require('../controllers/feedController')
+const { getPosts, createPost, deletePost, updatePost, likePost } = require('../controllers/feedController')
 const { protect } = require('../middleware/authMiddleware')
 const { asyncHandler } = require('../utils/asyncHandler')
 
@@ -22,5 +22,8 @@ router.put('/:id', protect, asyncHandler(updatePost));
 
 // Delete a post by ID
 router.delete('/:id', protect, asyncHandler(deletePost))
+
+// Route to like a post
+router.post('/:id/like', protect, asyncHandler(likePost));
 
 module.exports = router

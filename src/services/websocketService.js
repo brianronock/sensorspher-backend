@@ -1,31 +1,23 @@
-/***********************************************************
-    src/services/websocketService.js
-                This service handles WebSocket connections
-                for real-time data transmission.
-***********************************************************/
+const { Server } = require('socket.io');
 
-const WebSocket = require('ws')
+// Initialize WebSocket server with CORS allowed
+const io = new Server(3000, {  // Make sure the WebSocket server runs on the right port (your backend server port)
+  cors: {
+    origin: 'http://localhost:3001',  // Allow requests from your frontend's URL
+    methods: ['GET', 'POST'],  // Allow these methods
+  }
+});
 
-const wss = new WebSocket.Server({ port: process.env.WEBSOCKET_PORT || 8080 })
+io.on('connection', (socket) => {
+  console.log('WebSocket connection established:', socket.id);
 
-wss.on('connection', (ws) => {
-  console.log('New WebSocket connection established')
+  socket.on('disconnect', () => {
+    console.log('WebSocket disconnected:', socket.id);
+  });
+});
 
-  ws.on('message', (message) => {
-    console.log('Received:', message)
-  })
+const broadcastSensorData = (data) => {
+  io.emit('sensorData', data);  // Broadcast data to all connected WebSocket clients
+};
 
-  ws.on('close', () => {
-    console.log('WebSocket connection closed')
-  })
-})
-
-const broadcastMessage = (message) => {
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(message)
-    }
-  })
-}
-
-module.exports = { broadcastMessage }
+module.exports = { broadcastSensorData };

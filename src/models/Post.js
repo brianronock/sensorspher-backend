@@ -17,6 +17,11 @@ const postSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  likes: {
+    type: [mongoose.Schema.Types.ObjectId],  // Store an array of user IDs who liked the post
+    ref: 'User',
+    default: [],
+  },
   timestamp: {
     type: Date,
     default: Date.now

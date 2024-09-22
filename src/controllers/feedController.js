@@ -83,4 +83,29 @@ const updatePost = asyncHandler(async (req, res) => {
   res.json(updatedPost);
 });
 
-module.exports = { getPosts, createPost, deletePost, updatePost };
+const likePost = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  // Check if the ObjectId is valid
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ message: 'Post not found' });
+  }
+
+  const post = await Post.findById(id);
+  if (!post) {
+    return res.status(404).json({ message: 'Post not found' });
+  }
+
+  // Check if the user has already liked the post
+  if (post.likes.includes(req.user._id)) {
+    return res.status(400).json({ message: 'You already liked this post' });
+  }
+
+  // Add the user's ID to the likes array
+  post.likes.push(req.user._id);
+  await post.save();
+
+  res.json({ message: 'Post liked', post });
+});
+
+module.exports = { getPosts, createPost, deletePost, updatePost, likePost };

@@ -13,6 +13,9 @@ const userRoutes = require('./routes/userRoutes');  // Import user routes
 const { errorHandler } = require('./middleware/errorHandler');
 const { loggerMiddleware } = require('./middleware/loggerMiddleware');
 
+// Initialize the MQTT service here
+require('./services/mqttService');  // Requiring this will start the MQTT service
+
 // Initialize app
 const app = express();
 app.use(express.json());
