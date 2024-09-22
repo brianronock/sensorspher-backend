@@ -8,7 +8,7 @@ const { asyncHandler } = require('../utils/asyncHandler')
 
 // Get user profile
 const getUserProfile = asyncHandler(async (req, res) => {
-  console.log('User profile requested:', req.user)  // Debug log
+ // console.log('User profile requested:', req.user)  // Debug log
   const user = await User.findById(req.user._id)
   if (user) {
     res.json({

@@ -12,10 +12,10 @@ const { asyncHandler } = require('../utils/asyncHandler')
 const router = express.Router()
 
 // Get all sensors (protected route)
-router.get('/sensor', protect, asyncHandler(getSensors))
+router.get('/', protect, asyncHandler(getSensors))
 
 // Create a new sensor (protected route)
-router.post('/sensor', protect, asyncHandler(createSensor))
+router.post('/', protect, asyncHandler(createSensor))
 
 // Update a sensor by ID (protected route)
 router.put('/:id', protect, asyncHandler(updateSensor))

@@ -23,7 +23,7 @@ app.use(loggerMiddleware);
 app.use('/api/auth', authRoutes);
 app.use('/api/sensors', sensorRoutes);
 app.use('/api/feed', feedRoutes);
-app.use('/api/users', userRoutes);  // Mount user routes
+app.use('/api/users', userRoutes);  
 
 // Global error handler. Registered after all route definitions
 app.use(errorHandler);

@@ -39,23 +39,23 @@ const createPost = asyncHandler(async (req, res) => {
 const deletePost = asyncHandler(async (req, res) => {
   const { id } = req.params;
   
-  console.log('Deleting post with ID:', id);
+  // console.log('Deleting post with ID:', id);
 
   // Check if the ObjectId is valid
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    console.log('Invalid ObjectId:', id);
+    // console.log('Invalid ObjectId:', id);
     return res.status(404).json({ message: 'Post not found' });
   }
 
   const post = await Post.findById(id);
   if (!post) {
-    console.log('Post not found:', id);
+    // console.log('Post not found:', id);
     return res.status(404).json({ message: 'Post not found' });
   }
 
   // Use deleteOne or findByIdAndDelete instead of remove
   await Post.deleteOne({ _id: id });
-  console.log('Post removed successfully:', id);
+  // console.log('Post removed successfully:', id);
   res.json({ message: 'Post removed' });
 });
 

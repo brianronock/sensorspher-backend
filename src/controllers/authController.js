@@ -62,7 +62,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   if (user && (await user.matchPassword(password))) {
     const token = generateToken(user._id)
-    console.log('Generated token:', token) // Add this line for debugging
+    // console.log('Generated token:', token) // for  debugging
     res.json({
       _id: user._id,
       name: user.name,
