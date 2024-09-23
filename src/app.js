@@ -12,6 +12,11 @@ const feedRoutes = require('./routes/feedRoutes');
 const userRoutes = require('./routes/userRoutes');  // Import user routes
 const { errorHandler } = require('./middleware/errorHandler');
 const { loggerMiddleware } = require('./middleware/loggerMiddleware');
+const swaggerUi = require('swagger-ui-express');
+const fs = require('fs');
+const yaml = require('js-yaml'); // To read the YAML file
+const path = require('path');
+
 
 // Initialize the MQTT service here
 require('./services/mqttService');  // Requiring this will start the MQTT service
@@ -26,7 +31,15 @@ app.use(loggerMiddleware);
 app.use('/api/auth', authRoutes);
 app.use('/api/sensors', sensorRoutes);
 app.use('/api/feed', feedRoutes);
-app.use('/api/users', userRoutes);  
+app.use('/api/users', userRoutes); 
+
+// Load the YAML file
+const swaggerDocument = yaml.load(fs.readFileSync(path.join(__dirname, 'docs/apiDocs.yaml'), 'utf8'));// Set up the Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// Serve the API documentation YAML file
+app.get('/api-docs', (req, res) => {
+    res.sendFile(path.join(__dirname, 'docs/apiDocs.yaml')); // Adjusted path
+});
 
 // Global error handler. Registered after all route definitions
 app.use(errorHandler);
