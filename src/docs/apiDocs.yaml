@@ -1,7 +1,9 @@
 openapi: 3.0.0
 info:
   title: SensoSphere API
-  description: API for the SensoSphere platform, handling authentication, sensors, live feed, MQTT, WebSocket communications, and user management.
+  description: |
+    API for the SensoSphere platform, handling authentication, sensors, live feed, MQTT, WebSocket communications, and user management. 
+    This API is used to manage data from sensors, handle authentication, and provide a real-time feed using WebSockets and MQTT protocols.
   version: 1.0.1
   contact:
     name: Brian Rono
@@ -12,13 +14,15 @@ servers:
 
 tags:
   - name: Authentication
-    description: Operations related to user authentication
+    description: Operations related to user authentication (Login, Register, and JWT handling).
   - name: Sensors
-    description: Operations related to sensors and sensor data
+    description: Operations for reading sensor data and creating new sensor entries.
   - name: Feed
-    description: Operations related to live feed posts
+    description: Operations related to live feed posts, including creating, deleting, liking, and updating posts.
   - name: User Management
-    description: Operations related to user information and profiles
+    description: Manage user profiles, such as retrieving profile information.
+  - name: Real-time Communication
+    description: Operations related to MQTT and WebSocket for real-time sensor data updates.
 
 components:
   securitySchemes:
@@ -33,38 +37,51 @@ components:
       properties:
         id:
           type: string
-          description: The user ID
+          description: Unique identifier for the user
         name:
           type: string
         email:
           type: string
         password:
           type: string
+          description: Password is hashed and stored securely
         createdAt:
           type: string
           format: date-time
         updatedAt:
           type: string
           format: date-time
+      required:
+        - name
+        - email
+        - password
 
     Sensor:
       type: object
       properties:
         id:
           type: string
+          description: Unique identifier for the sensor
         type:
           type: string
+          description: Type of the sensor (e.g., temperature, humidity)
         value:
           type: number
+          description: Value from the sensor
         timestamp:
           type: string
           format: date-time
+          description: Timestamp of the sensor reading
+      required:
+        - type
+        - value
 
     Post:
       type: object
       properties:
         id:
           type: string
+          description: Unique identifier for the post
         content:
           type: string
         user:
@@ -73,23 +90,26 @@ components:
           type: array
           items:
             type: string
-            description: Array of user IDs who liked the post
+          description: Array of users who liked the post
         timestamp:
           type: string
           format: date-time
 
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
+          
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              message:
-                type: string
-              statusCode:
-                type: integer
+            $ref: '#/components/schemas/ErrorResponse'
 
 security:
   - bearerAuth: []
@@ -139,23 +159,6 @@ paths:
           description: Bad request, invalid credentials
         '401':
           description: Unauthorized, invalid password
-
-  /users/profile:
-    get:
-      summary: Get user profile
-      tags:
-        - User Management
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Returns the user profile
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
 
   /sensors:
     get:
@@ -314,22 +317,14 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
-  /feed/{id}:
     put:
       summary: Update a post in the feed
       tags:
         - Feed
       security:
         - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The post ID
       requestBody:
-        description: Post data to update
+        description: Update post data
         required: true
         content:
           application/json:
@@ -338,11 +333,11 @@ paths:
       responses:
         '200':
           description: Post updated successfully
-        '404':
-          description: Post not found
+        '400':
+          description: Bad request, invalid post data
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-
+    
     delete:
       summary: Delete a post from the feed
       tags:
@@ -364,25 +359,38 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
-    patch:
-      summary: Like a post
+  /mqtt:
+    post:
+      summary: Send data via MQTT
       tags:
-        - Feed
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The post ID
+        - Real-time Communication
+      requestBody:
+        description: MQTT message data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                topic:
+                  type: string
+                  description: The topic to publish to
+                message:
+                  type: string
+                  description: The message to send
       responses:
         '200':
-          description: Post liked successfully
+          description: Data sent successfully
         '400':
-          description: Bad request or user already liked the post
-        '404':
-          description: Post not found
+          description: Bad request
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+
+  /websocket:
+    get:
+      summary: Get real-time sensor data via WebSocket
+      tags:
+        - Real-time Communication
+      responses:
+        '200':
+          description: WebSocket connected for real-time data
