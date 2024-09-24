@@ -97,15 +97,14 @@ const likePost = asyncHandler(async (req, res) => {
   }
 
   // Check if the user has already liked the post
-  if (post.likes.includes(req.user._id)) {
-    return res.status(400).json({ message: 'You already liked this post' });
+  if (!post.likes.includes(req.user._id)) {
+    // Add the user's ID to the likes array only if not already liked
+    post.likes.push(req.user._id);
+    await post.save();
   }
 
-  // Add the user's ID to the likes array
-  post.likes.push(req.user._id);
-  await post.save();
-
   res.json({ message: 'Post liked', post });
+
 });
 
 module.exports = { getPosts, createPost, deletePost, updatePost, likePost };
