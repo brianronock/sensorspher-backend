@@ -32,22 +32,22 @@ const createSensor = asyncHandler(async (req, res) => {
 
 // Delete a sensor
 const deleteSensor = asyncHandler(async (req, res) => {
-  const sensor = await Sensor.findById(req.params.id);
+  const sensor = await Sensor.findById(req.params.id)
   if (!sensor) {
-    return res.status(404).json({ message: 'Sensor not found' });  // Directly return 404 response
+    return res.status(404).json({ message: 'Sensor not found' })  // Directly return 404 response
   }
-  await sensor.remove();
-  res.json({ message: 'Sensor removed' });
-});
+  await sensor.remove()
+  res.json({ message: 'Sensor removed' })
+})
 
 // Update a sensor
 const updateSensor = asyncHandler(async (req, res) => {
-  const sensor = await Sensor.findById(req.params.id);
+  const sensor = await Sensor.findById(req.params.id)
   if (!sensor) {
-    return res.status(404).json({ message: 'Sensor not found' });  // Directly return 404 response
+    return res.status(404).json({ message: 'Sensor not found' })  // Directly return 404 response
   }
-  const updatedSensor = await Sensor.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(updatedSensor);
-});
+  const updatedSensor = await Sensor.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  res.json(updatedSensor)
+})
 
 module.exports = { getSensors, createSensor, updateSensor, deleteSensor }

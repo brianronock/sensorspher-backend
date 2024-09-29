@@ -18,12 +18,12 @@ router.get('/', protect, asyncHandler(getPosts))
 router.post('/', protect, asyncHandler(createPost))
 
 // Update a post by ID
-router.put('/:id', protect, asyncHandler(updatePost));
+router.put('/:id', protect, asyncHandler(updatePost))
 
 // Delete a post by ID
 router.delete('/:id', protect, asyncHandler(deletePost))
 
 // Route to like a post
-router.post('/:id/like', protect, asyncHandler(likePost));
+router.post('/:id/like', protect, asyncHandler(likePost))
 
 module.exports = router

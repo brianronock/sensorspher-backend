@@ -1,8 +1,15 @@
-/***********************************************************
+/********************************************************************************************************
     src/config/config.js
-                This file stores the configuration settings 
-                for different environments.
-***********************************************************/
+            This file stores the configuration settings for different environments.
+** Variables:
+- `dotenv`: A package used to load environment variables from a `.env` file into `process.env`.
+- `config`: An object that holds environment variables like the port number, MongoDB URI, 
+            JWT secret, MQTT Broker URL, and WebSocket port.
+** Functions: 
+- `dotenv.config()`: This function loads the environment variables from the `.env` file into
+                     `process.env`, making them accessible throughout the app
+                
+********************************************************************************************************/
 
 const dotenv = require('dotenv')
 
