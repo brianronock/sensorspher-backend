@@ -1,8 +1,19 @@
 /***********************************************************
     src/models/Sensor.js
-                This file defines the MongoDB model for
-                sensors.
-***********************************************************/
+/********************************************************************************************************
+- Purpose: Defines the MongoDB schema and model for sensor data.
+Variables
+- `mongoose`: The MongoDB ODM used to define the schema and model for the sensors.
+Functions:
+- `sensorSchema`: The schema defines the structure of a sensor document:
+  - `type`: A string representing the type of sensor (e.g., temperature, humidity), required and limited to predefined values using an enum.
+  - `value`: A number representing the sensor's reading, required and with an optional minimum value.
+  - `timestamp`: The date when the sensor data was created, set to the current date by default.
+- `Sensor`: The Mongoose model for sensors, based on the `sensorSchema`.
+Description:
+- This file defines how sensor data is stored in MongoDB. Each sensor has a type, a value, and a timestamp to record when the reading was taken.
+
+********************************************************************************************************/
 
 const mongoose = require('mongoose')
 
@@ -10,12 +21,12 @@ const sensorSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true,
-    enum: ['temperature', 'humidity', 'pressure', 'other'], // Predefine valid sensor types
+    enum: ['temperature', 'humidity', 'pressure', 'other'], // Pre-defined valid sensor types
   },
   value: {
     type: Number,
     required: true,
-    min: 0, // You can set a minimum value if relevant
+    min: 0, // minimum value of sensor reading
   },
   timestamp: {
     type: Date,

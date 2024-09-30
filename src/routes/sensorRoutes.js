@@ -1,8 +1,16 @@
 /***********************************************************
     src/routes/sensorRoutes.js
-                This file defines the routes related to
-                managing sensor data.
-***********************************************************/
+/********************************************************************************************************
+Summary:
+Defines the routes related to managing sensor data, such as retrieving, creating, updating, and deleting sensors.
+Key Components:
+- `/`: Route to get all sensors (GET) and create a new sensor (POST).
+- `/:id`: Route to update (PUT) or delete (DELETE) a sensor by ID.
+Context:
+- Backend: Handles sensor data operations, connecting sensor inputs to the MongoDB database.
+- Whole Project: Essential for tracking sensor data, creating a connection between the IoT devices and your app.
+
+********************************************************************************************************/
 
 const express = require('express')
 const { getSensors, createSensor, updateSensor, deleteSensor } = require('../controllers/sensorController')

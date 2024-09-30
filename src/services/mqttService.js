@@ -1,5 +1,20 @@
+/***********************************************************
+    src/services/mqttService.js
+/********************************************************************************************************
+Summary:
+This file handles MQTT messaging and integrates WebSocket broadcasting for sensor data. MQTT is a lightweight messaging protocol, often used for IoT, which listens to sensor data topics and stores that data in a MongoDB database. It also broadcasts the data via WebSocket to any connected frontend clients.
+Key Components:
+- `client`: MQTT client that connects to an MQTT broker.
+- `on('connect')`: Event listener for when the client connects to the MQTT broker. Subscribes to two topics: `sensors/temperature` and `sensors/humidity`.
+- `on('message')`: Event listener that triggers when a message is received from the subscribed MQTT topics. Based on the topic, it creates a sensor object (either temperature or humidity), stores it in MongoDB, and broadcasts the data to WebSocket clients.
+- `initSocket`: Initializes a `Socket.io` WebSocket instance, enabling real-time communication between the server and frontend.
+Context:
+- In the backend, it acts as the bridge between sensor devices (through MQTT) and real-time communication (via WebSocket).
+- In the whole project, it allows sensor data to be captured and immediately displayed in real-time on a frontend interface via WebSocket.
+********************************************************************************************************/
+
 const mqtt = require('mqtt')
-const Sensor = require('../models/Sensor')  // Assuming you're using this model for database
+const Sensor = require('../models/Sensor')  // Sensor model from database
 
 let io  // Socket.io instance placeholder
 

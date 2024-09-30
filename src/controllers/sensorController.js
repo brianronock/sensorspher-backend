@@ -1,7 +1,21 @@
 /***********************************************************
     src/controllers/sensorController.js
-                This file handles the logic for sensors.
-***********************************************************/
+/********************************************************************************************************
+- Purpose: This file handles the logic for managing sensor data, including adding, updating, deleting, and retrieving sensors.
+Variables
+- `Sensor`: The Mongoose model for sensor data.
+- `asyncHandler`: A utility to handle errors in asynchronous functions.
+- `Joi`: Used to validate sensor data input.
+- `sensorSchema`: A schema created using `Joi` to validate the type and value of a sensor.
+Functions:
+- `getSensors()`: Fetches all sensor data from the database and returns it in the response.
+- `createSensor()`: Validates the sensor data using `Joi`, creates a new sensor, and saves it to the database.
+- `deleteSensor()`: Deletes a sensor by its ID after checking if it exists in the database.
+- `updateSensor()`: Updates a sensor's data by its ID, ensuring the sensor exists before making updates.
+
+Description:
+- The `sensorController` is responsible for managing sensor-related functionalities. It validates the sensor data before saving or updating it in the database and handles the retrieval and deletion of sensor data.
+********************************************************************************************************/
 
 const Sensor = require('../models/Sensor')
 const { asyncHandler } = require('../utils/asyncHandler')

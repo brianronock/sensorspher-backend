@@ -1,3 +1,17 @@
+/***********************************************************
+    src/server.js
+/********************************************************************************************************
+Summary:
+This file creates the HTTP server and WebSocket server, and connects to the MongoDB database.
+Key Components:
+- HTTP Server: Uses Express app and WebSocket (Socket.io) for real-time communication.
+- MongoDB Connection: Connects to the MongoDB database using the `connectDB` function from `db.js`.
+- WebSocket: Initializes WebSocket server and integrates it with the MQTT service.
+Context:
+- Backend: Bootstraps the entire backend, bringing together the database, server, and real-time communication.
+- Whole Project: It powers the entire project by handling incoming requests and managing WebSocket connections for real-time features.
+********************************************************************************************************/
+
 const http = require('http')
 const app = require('./app')
 const connectDB = require('./config/db')
@@ -13,7 +27,7 @@ const server = http.createServer(app)
 // Initialize Socket.io with CORS allowed from frontend
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3001',  // Your frontend URL
+    origin: 'http://localhost:3001',  // frontend URL
     methods: ['GET', 'POST'],
   }
 })

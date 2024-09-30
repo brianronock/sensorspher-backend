@@ -1,8 +1,14 @@
 /***********************************************************
     src/utils/jwtHelper.js
-                This helper generates JWT tokens for
-                authenticated users.
-***********************************************************/
+/********************************************************************************************************
+Summary:
+Handles JSON Web Token (JWT) generation for user authentication.
+Key Components:
+- `generateToken`: Generates a JWT with the user’s ID and signs it using the secret key from the environment variables. Tokens are valid for 30 days.
+Context:
+- Backend: Part of the authentication flow, used in login and protected routes.
+- Whole Project: Ensures secure communication between the frontend and backend, verifying users via tokens.
+********************************************************************************************************/
 
 const jwt = require('jsonwebtoken')
 const { jwtSecret } = require('../config/config')

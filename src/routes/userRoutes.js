@@ -1,8 +1,15 @@
 /***********************************************************
     src/routes/userRoutes.js
-                This file defines routes related to user 
-                actions such as viewing or updating profiles.
-***********************************************************/
+/********************************************************************************************************
+Summary:
+Defines routes for user actions, such as retrieving and updating user profiles.
+Key Components:
+- `/profile`: Route to get (GET) and update (PUT) the current user’s profile.
+Context:
+- Backend: Facilitates the retrieval and modification of user information.
+- Whole Project: Allows users to update their profiles and manage their accounts.
+
+********************************************************************************************************/
 
 const express = require('express')
 const { getUserProfile, updateUserProfile } = require('../controllers/userController')

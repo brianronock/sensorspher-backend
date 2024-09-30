@@ -1,7 +1,21 @@
 /***********************************************************
     src/controllers/feedController.js
-                This file handles the logic for feed posts.
-***********************************************************/
+/********************************************************************************************************
+- Purpose: This file handles the logic for managing feed posts, including creating, updating, deleting, and liking posts.
+Variables
+- `mongoose`: Used for interacting with MongoDB.
+- `Post`: The Mongoose model for posts.
+- `asyncHandler`: A utility to handle errors in asynchronous functions.
+- `Joi`: Used to validate the content of the post using a schema.
+- `postSchema`: A schema defined using `Joi` to validate the structure of a post.
+Functions:
+- `getPosts()`: Retrieves all posts from the database and returns them in the response. It populates the `user` field with the `name` of the user who created the post.
+- `createPost()`: Validates the input using `Joi`, creates a new post with the provided content, and associates the post with the authenticated user. The new post is saved to the database and returned in the response.
+- `deletePost()`: Deletes a post by its ID. It checks if the post exists and if the user is authorized to delete the post.
+- `updatePost()`: Updates an existing post by its ID. It checks if the post exists and if the user is the owner of the post, then updates the post content.
+- `likePost()`: Handles the liking of a post. It checks if the post exists and if the user has already liked the post. If not, it adds the user's ID to the likes array and updates the post.
+Description:- The `feedController` is responsible for managing feed-related functionalities. It handles creating, updating, deleting, and liking posts while ensuring proper user validation and permissions.
+********************************************************************************************************/
 
 const mongoose = require('mongoose')
 const Post = require('../models/Post')
@@ -61,7 +75,7 @@ const deletePost = asyncHandler(async (req, res) => {
     //return res.json(post)
     return res.status(403).json({ message: 'Not authorized to delete this post' })
   }
-  // Use deleteOne or findByIdAndDelete instead of remove
+  // Using deleteOne or findByIdAndDelete instead of remove
   await Post.deleteOne({ _id: id })
   console.log('Post deleted successfully:', id);
 

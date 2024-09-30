@@ -1,8 +1,18 @@
 /***********************************************************
     src/app.js
-    This file sets up the Express app, applies middleware, 
-    and connects routes.
-***********************************************************/
+/********************************************************************************************************
+Summary:
+This file is the main entry point for the Express app. It sets up the middleware, connects routes, and integrates services like MQTT and WebSocket.
+Key Components:
+- Middleware: Includes `express.json()`, `cors()`, `loggerMiddleware`, and `errorHandler`.
+- Routes: Sets up all the API routes (auth, sensors, feed, users).
+- Swagger UI: Exposes API documentation.
+- MQTT Service: Initializes the MQTT service, which starts listening to sensor data.
+- Error Handling: Registers the global error handler.
+Context:
+- Backend: This is the core of the Express application, initializing all middleware, services, and routes.
+- Whole Project: The central hub that connects every service and route, handling requests and managing real-time data flow.
+********************************************************************************************************/
 
 const express = require('express')
 const cors = require('cors')

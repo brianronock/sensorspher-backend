@@ -1,7 +1,16 @@
 /***********************************************************
     src/controllers/userController.js
-                This file handles user-related logic.
-***********************************************************/
+/********************************************************************************************************
+- Purpose: This file handles logic related to user profiles, such as retrieving and updating user information.
+Variables
+- `User`: The Mongoose model for user data.
+- `asyncHandler`: A utility to handle errors in asynchronous functions.
+Functions:
+- `getUserProfile()`: Fetches the profile of the currently authenticated user using their `user._id` and returns the user’s profile details.
+- `updateUserProfile()`: Updates the profile of the authenticated user. It updates the name, email, and password (if provided), and then saves the updated user to the database.
+Description:
+- The `userController` is responsible for user-related tasks, such as retrieving and updating the user's profile. It ensures that only the authenticated user can access and update their own data.
+********************************************************************************************************/
 
 const User = require('../models/User')
 const { asyncHandler } = require('../utils/asyncHandler')

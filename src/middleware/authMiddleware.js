@@ -1,8 +1,17 @@
 /***********************************************************
     src/middleware/authMiddleware.js
-                This file checks if the user is authenticated
-                by verifying the JWT token.
-***********************************************************/
+/********************************************************************************************************
+- Purpose: This middleware verifies if the user is authenticated by checking and validating the JWT token provided in the authorization header of the request.
+Variables
+- `jwt`: A package used to handle JSON Web Tokens (JWT), responsible for verifying the token.
+- `jwtSecret`: The secret key used for signing the JWT, imported from the config file.
+- `User`: The Mongoose model for the user, used to fetch user information from the database.
+- `asyncHandler`: A utility function to handle errors in asynchronous functions.
+Functions:
+- `protect()`: This function is the main middleware that protects routes. It checks the authorization header for a valid JWT token, verifies it using the `jwtSecret`, and retrieves the corresponding user from the database (excluding the password). If the token is missing or invalid, the user is not authorized to access the route.
+Description:
+- This file ensures that only authenticated users can access certain routes. It checks for a valid JWT token in the request header and decodes it to authenticate the user, attaching the user’s data to `req.user` for use in the route handler.
+********************************************************************************************************/
 
 const jwt = require('jsonwebtoken')
 const { jwtSecret } = require('../config/config')
