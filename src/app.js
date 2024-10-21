@@ -18,7 +18,9 @@ const express = require('express')
 const cors = require('cors')
 const authRoutes = require('./routes/authRoutes')
 const sensorRoutes = require('./routes/sensorRoutes')
+const addSensorRoutes = require('./routes/addSensorRoutes')
 const feedRoutes = require('./routes/feedRoutes')
+const addFeedRoutes = require('./routes/addFeedRoutes')
 const userRoutes = require('./routes/userRoutes')  // Import user routes
 const { errorHandler } = require('./middleware/errorHandler')
 const { loggerMiddleware } = require('./middleware/loggerMiddleware')
@@ -42,6 +44,9 @@ app.use('/api/auth', authRoutes)
 app.use('/api/sensors', sensorRoutes)
 app.use('/api/feed', feedRoutes)
 app.use('/api/users', userRoutes) 
+app.use('/api/addSensors', addSensorRoutes) //Beta
+app.use('/api/addFeed', addFeedRoutes) //Beta
+
 
 // Load the YAML file
 const swaggerDocument = yaml.load(fs.readFileSync(path.join(__dirname, 'docs/apiDocs.yaml'), 'utf8'))// Set up the Swagger UI

@@ -14,7 +14,9 @@ Context:
 ********************************************************************************************************/
 
 const mqtt = require('mqtt')
+//const Sensor = require('../models/Sensor')  // Sensor model from database
 const Sensor = require('../models/Sensor')  // Sensor model from database
+
 
 let io  // Socket.io instance placeholder
 
